@@ -12,7 +12,7 @@ class GameSprite {
         this.x = x;
         this.y = y;
     }
-    render = function () {
+    render () {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     };
 }
@@ -20,24 +20,21 @@ class GameSprite {
 class Enemy extends GameSprite {
     constructor(x, y, sprite = "images/enemy-bug.png", speed = "75") {
         super(x, y, sprite);
-        this.x = x;
-        this.y = y;
         this.speed = speed;
-        this.sprite = sprite;
+        
     }
-    render(){};
-};
-
-    Enemy.prototype.update = function (dt) {
+ 
+    update (dt) {
         this.x += this.speed * dt;
         const addSpeed = 40;
         if (this.x >= 500) {
-        this.x = -someGap;
-        this.speed = Math.floor(addSpeed + Math.random() * 100);
+            this.x = -someGap;
+            this.speed = Math.floor(addSpeed + Math.random() * 100);
         }
     };
+};
 
-this.checkCollisions = function () {
+let checkCollisions = function () {
     allEnemies.forEach(function (enemy) {
         const collision_distance = 50;
         let diffX = Math.abs(enemy.x - player.x);
@@ -57,20 +54,16 @@ this.checkCollisions = function () {
 class Player extends GameSprite {
     constructor(x = 202, y = 400, sprite = "images/char-cat-girl.png") {
         super(x, y, sprite);
-        this.sprite = sprite;
         this.stepX = 98;
         this.stepY = 85;
     }
-
-    render() { };
-};
-
-Player.prototype.initialCoordinates = function () {
+  initialCoordinates () {
     this.x = 202; this.y = 400;
-};
-
-Player.prototype.update = function () {
     };
+    
+    update() { };
+
+};
 
 Player.prototype.handleInput = function (direction) { 
  switch (direction) {
@@ -104,10 +97,10 @@ Player.prototype.handleInput = function (direction) {
 const player = new Player();
 
 const allEnemies = [
-    enemy1=new Enemy(5,60),
-    enemy2=new Enemy(50,145),
-    enemy3=new Enemy(280,145),
-    enemy4=new Enemy(25,230)
+    new Enemy(5,60),
+    new Enemy(50,145),
+    new Enemy(280,145),
+    new Enemy(25,230)
 ];
 
 // This listens for key presses and sends the keys to your
