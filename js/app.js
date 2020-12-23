@@ -4,6 +4,7 @@ const borders = {
     upBorder: 410,
     downBorder: 5
 };
+
 const someGap = 10;
 
 class GameSprite {
@@ -12,6 +13,7 @@ class GameSprite {
         this.x = x;
         this.y = y;
     }
+
     render () {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     };
@@ -20,14 +22,14 @@ class GameSprite {
 class Enemy extends GameSprite {
     constructor(x, y, sprite = "images/enemy-bug.png", speed = "75") {
         super(x, y, sprite);
-        this.speed = speed;
-        
+        this.speed = speed; 
     }
  
     update (dt) {
         this.x += this.speed * dt;
         const addSpeed = 40;
-        if (this.x >= 500) {
+        const pointHideEnemy = 500;
+        if (this.x >= pointHideEnemy) {
             this.x = -someGap;
             this.speed = Math.floor(addSpeed + Math.random() * 100);
         }
@@ -52,46 +54,46 @@ let checkCollisions = function () {
 };
 
 class Player extends GameSprite {
-    constructor(x = 202, y = 400, sprite = "images/char-cat-girl.png") {
+    constructor(x = 200, y = 400, sprite = "images/char-cat-girl.png") {
         super(x, y, sprite);
-        this.stepX = 98;
+        this.stepX = 100;
         this.stepY = 85;
     }
-  initialCoordinates () {
-    this.x = 202; this.y = 400;
+    
+    initialCoordinates() {
+        this.x = 200; this.y = 400;
     };
     
     update() { };
 
-};
-
-Player.prototype.handleInput = function (direction) { 
- switch (direction) {
-        case 'left':
-            this.x -=this.stepX;
-            break;
-        case "up":
-            this.y -= this.stepY;
-            break
-        case "right":
-            this.x += this.stepX;
-            break;
-        case "down":
-            this.y += this.stepY;
-            break;
-        case "other":
-            this.x; this.y;
-            break;
-    }
-    if (this.x >= borders.rightBorder) {
-        this.x = borders.rightBorder-2;
-    } else if (this.x <= borders.leftBorder) {
-        this.x = borders.leftBorder+1;
-    } else if (this.y >= borders.upBorder) {
-        this.y = borders.upBorder-someGap;
-    } else if (this.y <= borders.downBorder) {
-        this.y = borders.downBorder;
-    }
+    handleInput  (direction) {
+        switch (direction) {
+            case 'left':
+                this.x -= this.stepX;
+                break;
+            case "up":
+                this.y -= this.stepY;
+                break
+            case "right":
+                this.x += this.stepX;
+                break;
+            case "down":
+                this.y += this.stepY;
+                break;
+            case "other":
+                this.x; this.y;
+                break;
+        }
+        if (this.x >= borders.rightBorder) {
+            this.x = borders.rightBorder;
+        } else if (this.x <= borders.leftBorder) {
+            this.x = borders.leftBorder;
+        } else if (this.y >= borders.upBorder) {
+            this.y = borders.upBorder - someGap;
+        } else if (this.y <= borders.downBorder) {
+            this.y = borders.downBorder;
+        }
+    };
 };
 
 const player = new Player();
@@ -112,5 +114,6 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
+    
     player.handleInput(allowedKeys[e.keyCode]);
 });
